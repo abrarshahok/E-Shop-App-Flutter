@@ -21,12 +21,9 @@ class CartItemProvider with ChangeNotifier {
   }
 
   Future<void> fetchCartItems() async {
-    final userId = FirebaseAuth.instance.currentUser!.uid;
     try {
-      final cartDocs = await FirebaseFirestore.instance
-          .collection('cart')
-          .where('userId', isEqualTo: userId)
-          .get();
+      final cartDocs =
+          await FirebaseFirestore.instance.collection('cart').get();
       final cartInfo = cartDocs.docs;
       cartInfo
           .map((product) => _cartItems.putIfAbsent(
@@ -52,14 +49,13 @@ class CartItemProvider with ChangeNotifier {
     required String imageUrl,
     required double price,
   }) async {
-    final userId = FirebaseAuth.instance.currentUser!.uid;
     final firebaseDB = FirebaseFirestore.instance;
     try {
       if (_cartItems.containsKey(productId)) {
         _cartItems.update(
           productId,
           (item) => CartItem(
-            id: userId,
+            id: item.id,
             title: item.title,
             image: item.image,
             price: item.price,
