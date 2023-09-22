@@ -1,9 +1,12 @@
+import 'package:eshop_flutter_app/providers/cart_item_provider.dart';
 import '/providers/auth_provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class AppDrawer extends StatelessWidget {
+  const AppDrawer({super.key});
+
   Widget cutomListTile({
     required BuildContext ctx,
     required String title,
@@ -33,7 +36,6 @@ class AppDrawer extends StatelessWidget {
   Widget build(BuildContext context) {
     bool isAdmin = false;
     final userID = FirebaseAuth.instance.currentUser!.uid;
-
     return FutureBuilder(
       future: Provider.of<AuthProvider>(context).isAdmin(userID),
       builder: (context, snapshot) {

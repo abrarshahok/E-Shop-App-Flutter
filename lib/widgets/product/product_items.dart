@@ -2,7 +2,7 @@ import '/screens/product/product_detail_screen.dart';
 import 'package:flutter/material.dart';
 
 class ProductItems extends StatelessWidget {
-  const ProductItems({
+  const ProductItems({super.key, 
     required this.id,
     required this.title,
     required this.description,

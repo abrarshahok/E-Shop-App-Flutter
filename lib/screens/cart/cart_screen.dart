@@ -5,8 +5,26 @@ import '/providers/cart_item_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class CartScreen extends StatelessWidget {
+class CartScreen extends StatefulWidget {
   const CartScreen({super.key});
+
+  @override
+  State<CartScreen> createState() => _CartScreenState();
+}
+
+class _CartScreenState extends State<CartScreen> {
+  Future? _future;
+
+  Future _fetchFutureCartItems() {
+    return Provider.of<CartItemProvider>(context, listen: false)
+        .fetchCartItems();
+  }
+
+  @override
+  void initState() {
+    _future = _fetchFutureCartItems();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -14,10 +32,10 @@ class CartScreen extends StatelessWidget {
     final cartValues = cart.cartItems.values.toList();
     return cart.itemsCount <= 0
         ? const Center(
-            child: Text('Cart is Empty!'),
+            child: Text('Cart is Empty'),
           )
         : FutureBuilder(
-            future: cart.fetchCartItems(),
+            future: _future,
             builder: (ctx, futureSnapshot) {
               if (futureSnapshot.connectionState == ConnectionState.waiting) {
                 return const Center(

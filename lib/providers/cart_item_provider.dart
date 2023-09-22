@@ -1,8 +1,7 @@
-import 'package:firebase_auth/firebase_auth.dart';
-
 import '/models/cart_item.dart';
 import 'package:flutter/foundation.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class CartItemProvider with ChangeNotifier {
   final Map<String, CartItem> _cartItems = {};
@@ -11,6 +10,7 @@ class CartItemProvider with ChangeNotifier {
   }
 
   int get itemsCount => _cartItems.length;
+  String get userId => FirebaseAuth.instance.currentUser!.uid;
 
   double get total {
     double total = 0.0;
@@ -22,9 +22,12 @@ class CartItemProvider with ChangeNotifier {
 
   Future<void> fetchCartItems() async {
     try {
-      final cartDocs =
-          await FirebaseFirestore.instance.collection('cart').get();
-      final cartInfo = cartDocs.docs;
+      final cartRefs = await FirebaseFirestore.instance
+          .collection('cart')
+          .doc(userId)
+          .collection(userId)
+          .get();
+      final cartInfo = cartRefs.docs;
       cartInfo
           .map((product) => _cartItems.putIfAbsent(
                 product.id,
@@ -49,7 +52,11 @@ class CartItemProvider with ChangeNotifier {
     required String imageUrl,
     required double price,
   }) async {
-    final firebaseDB = FirebaseFirestore.instance;
+    final cartRefs = FirebaseFirestore.instance
+        .collection('cart')
+        .doc(userId)
+        .collection(userId)
+        .doc(productId);
     try {
       if (_cartItems.containsKey(productId)) {
         _cartItems.update(
@@ -63,7 +70,7 @@ class CartItemProvider with ChangeNotifier {
           ),
         );
         final currentItem = _cartItems[productId];
-        await firebaseDB.collection('cart').doc(productId).set({
+        await cartRefs.set({
           'id': currentItem!.id,
           'title': title,
           'image': imageUrl,
@@ -71,7 +78,7 @@ class CartItemProvider with ChangeNotifier {
           'quantity': currentItem.quantity,
         });
       } else {
-        await firebaseDB.collection('cart').doc(productId).set({
+        await cartRefs.set({
           'id': DateTime.now().toString(),
           'title': title,
           'image': imageUrl,
@@ -99,7 +106,12 @@ class CartItemProvider with ChangeNotifier {
     if (!_cartItems.containsKey(productId)) {
       return;
     }
-    final firebaseDB = FirebaseFirestore.instance;
+
+    final cartRefs = FirebaseFirestore.instance
+        .collection('cart')
+        .doc(userId)
+        .collection(userId)
+        .doc(productId);
     final currentItem = _cartItems[productId];
     try {
       if (_cartItems[productId]!.quantity > 1) {
@@ -113,14 +125,15 @@ class CartItemProvider with ChangeNotifier {
             quantity: item.quantity - 1,
           ),
         );
-        await firebaseDB.collection('cart').doc(currentItem!.id).set({
+        await cartRefs.set({
+          'id': currentItem!.id,
           'title': currentItem.title,
           'image': currentItem.image,
           'price': currentItem.price,
           'quantity': currentItem.quantity,
         });
       } else {
-        await firebaseDB.collection('cart').doc(currentItem!.id).delete();
+        await cartRefs.delete();
         _cartItems.remove(productId);
       }
     } catch (_) {
@@ -133,10 +146,15 @@ class CartItemProvider with ChangeNotifier {
     if (!_cartItems.containsKey(productId)) {
       return;
     }
-    final firebaseDB = FirebaseFirestore.instance;
+
+    final cartRefs = FirebaseFirestore.instance
+        .collection('cart')
+        .doc(userId)
+        .collection(userId)
+        .doc(productId);
     final currentItem = _cartItems[productId];
     try {
-      await firebaseDB.collection('cart').doc(currentItem!.id).delete();
+      await cartRefs.delete();
       _cartItems.remove(productId);
     } catch (_) {
       _cartItems[productId] = currentItem!;
@@ -147,12 +165,16 @@ class CartItemProvider with ChangeNotifier {
 
   void clearCart() async {
     try {
-      await FirebaseFirestore.instance.collection('cart').get().then((snapsot) {
+      await FirebaseFirestore.instance
+          .collection('cart')
+          .doc(userId)
+          .collection(userId)
+          .get()
+          .then((snapsot) {
         for (DocumentSnapshot snap in snapsot.docs) {
           snap.reference.delete();
         }
-      });
-      _cartItems.clear();
+      }).whenComplete(() => _cartItems.clear());
     } catch (_) {
       rethrow;
     }

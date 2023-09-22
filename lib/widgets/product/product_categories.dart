@@ -4,7 +4,7 @@ import '/models/product.dart';
 import 'package:flutter/material.dart';
 
 class ProductCategoriesItems extends StatelessWidget {
-  const ProductCategoriesItems({
+  const ProductCategoriesItems({super.key, 
     required this.title,
     required this.image,
     required this.category,

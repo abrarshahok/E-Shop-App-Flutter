@@ -47,7 +47,7 @@ class _AppScreenState extends State<AppScreen> {
           ),
         ),
       ),
-      drawer: AppDrawer(),
+      drawer: const AppDrawer(),
       body: _screens[currentIndex]['page'] as Widget,
       bottomNavigationBar: GNav(
         onTabChange: (index) => setState(() => currentIndex = index),

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class OrderInfoForm extends StatelessWidget {
-  OrderInfoForm({
+  OrderInfoForm({super.key, 
     required this.submit,
     required this.isLoading,
   });

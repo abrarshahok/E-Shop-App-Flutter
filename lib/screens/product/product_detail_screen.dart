@@ -8,6 +8,8 @@ import 'package:provider/provider.dart';
 class ProductDetailScreen extends StatelessWidget {
   static const routeName = '/product-detail-screen';
   final draggableScrollableController = DraggableScrollableController();
+
+  ProductDetailScreen({super.key});
   BorderRadiusGeometry get borderRadius {
     return const BorderRadius.only(
       topLeft: Radius.circular(15),

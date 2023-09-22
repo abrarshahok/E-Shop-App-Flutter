@@ -57,7 +57,7 @@ class MainApp extends StatelessWidget {
           },
         ),
         routes: {
-          ProductScreen.routeName: (context) => ProductScreen(),
+          ProductScreen.routeName: (context) => const ProductScreen(),
           ProductDetailScreen.routeName: (context) => ProductDetailScreen(),
           AddToCartScreen.routeName: (context) => const AddToCartScreen(),
           OrderInfoScreen.routeName: (context) => const OrderInfoScreen(),
