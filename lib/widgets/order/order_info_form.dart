@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 
-class OrderInfoForm extends StatelessWidget {
-  OrderInfoForm({super.key, 
+import '../../constants/constants.dart';
+
+class OrderInfoForm extends StatefulWidget {
+  const OrderInfoForm({
+    super.key,
     required this.submit,
     required this.isLoading,
   });
@@ -12,16 +15,22 @@ class OrderInfoForm extends StatelessWidget {
     required String address,
   }) submit;
 
+  @override
+  State<OrderInfoForm> createState() => _OrderInfoFormState();
+}
+
+class _OrderInfoFormState extends State<OrderInfoForm> {
   final GlobalKey<FormState> _formKey = GlobalKey();
   String? _firstName;
   String? _lastName;
   String? _address;
+
   void _confirmOrder(BuildContext context) {
     bool isValid = _formKey.currentState!.validate();
     FocusScope.of(context).unfocus();
     if (isValid) {
       _formKey.currentState!.save();
-      submit(
+      widget.submit(
         firstName: _firstName!.trim(),
         lastName: _lastName!.trim(),
         address: _address!.trim(),
@@ -35,7 +44,7 @@ class OrderInfoForm extends StatelessWidget {
       key: _formKey,
       child: Center(
         child: Card(
-          elevation: 5,
+          elevation: 1,
           margin: const EdgeInsets.all(10),
           child: Padding(
             padding: const EdgeInsets.all(10),
@@ -48,7 +57,10 @@ class OrderInfoForm extends StatelessWidget {
                   decoration: const InputDecoration(labelText: '*First Name'),
                   onSaved: (name) => _firstName = name,
                   validator: (name) {
-                    if (name!.trim().isEmpty || name.length < 3) {
+                    if (name!.trim().isEmpty) {
+                      return requiredField;
+                    }
+                    if (name.length < 3) {
                       return 'Please enter valid name';
                     }
                     return null;
@@ -63,14 +75,17 @@ class OrderInfoForm extends StatelessWidget {
                       const InputDecoration(labelText: '*Delivery Adrress'),
                   onSaved: (address) => _address = address,
                   validator: (address) {
-                    if (address!.trim().isEmpty || address.length < 5) {
-                      return 'Please enter valid Address';
+                    if (address!.trim().isEmpty) {
+                      return requiredField;
+                    }
+                    if (address.length < 3) {
+                      return 'Please enter valid address';
                     }
                     return null;
                   },
                 ),
                 const SizedBox(height: 30),
-                isLoading
+                widget.isLoading
                     ? const CircularProgressIndicator()
                     : ElevatedButton(
                         onPressed: () => _confirmOrder(context),

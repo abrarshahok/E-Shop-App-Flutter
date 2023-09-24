@@ -2,7 +2,8 @@ import '/screens/product/product_detail_screen.dart';
 import 'package:flutter/material.dart';
 
 class ProductItems extends StatelessWidget {
-  const ProductItems({super.key, 
+  const ProductItems({
+    super.key,
     required this.id,
     required this.title,
     required this.description,
@@ -19,7 +20,7 @@ class ProductItems extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      elevation: 10,
+      elevation: 1,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.only(
           topLeft: Radius.circular(15),

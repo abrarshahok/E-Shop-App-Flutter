@@ -1,3 +1,5 @@
+import 'package:eshop_flutter_app/screens/app/homepage.dart';
+
 import '/screens/order/order_info_screen.dart';
 import '/providers/auth_provider.dart';
 import '/screens/auth/auth_screen.dart';
@@ -9,7 +11,7 @@ import '/providers/cart_item_provider.dart';
 import 'screens/product/product_screen.dart';
 import '/providers/product_provider.dart';
 import '/screens/product/product_detail_screen.dart';
-import 'screens/app/app_screen.dart';
+import 'screens/app/user_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -50,7 +52,7 @@ class MainApp extends StatelessWidget {
           stream: FirebaseAuth.instance.authStateChanges(),
           builder: (context, streamSnapshot) {
             if (streamSnapshot.hasData) {
-              return const AppScreen();
+              return const HomePage();
             } else {
               return const AuthScreen();
             }

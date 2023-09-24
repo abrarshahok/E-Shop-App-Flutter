@@ -8,7 +8,11 @@ class AuthForm extends StatefulWidget {
     required bool isLogin,
   }) submit;
   final bool isLoading;
-  const AuthForm({super.key, required this.submit, required this.isLoading});
+  const AuthForm({
+    super.key,
+    required this.submit,
+    required this.isLoading,
+  });
   @override
   State<AuthForm> createState() => _AuthFormState();
 }
@@ -23,7 +27,6 @@ class _AuthFormState extends State<AuthForm> {
   void _submitUserData() {
     bool isValid = _formKey.currentState!.validate();
     FocusScope.of(context).unfocus();
-
     if (isValid) {
       _formKey.currentState!.save();
       widget.submit(
@@ -97,16 +100,16 @@ class _AuthFormState extends State<AuthForm> {
                       onPressed: _submitUserData,
                       child: Text(_isLogin ? 'Login' : 'Signup'),
                     ),
-                  TextButton(
-                    onPressed: () {
-                      setState(() => _isLogin = !_isLogin);
-                    },
-                    child: Text(
-                      _isLogin
-                          ? 'Create new account'
-                          : 'I already have an accoount!',
-                    ),
-                  ),
+                  !widget.isLoading
+                      ? TextButton(
+                          onPressed: () => setState(() => _isLogin = !_isLogin),
+                          child: Text(
+                            _isLogin
+                                ? 'Create new account'
+                                : 'I already have an accoount!',
+                          ),
+                        )
+                      : Container(),
                 ],
               ),
             ),

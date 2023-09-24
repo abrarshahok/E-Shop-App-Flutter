@@ -1,3 +1,5 @@
+import 'package:eshop_flutter_app/constants/constants.dart';
+import '/screens/loading_screens/orders_loading_screen.dart';
 import '/widgets/order/order_items.dart';
 import '/providers/order_item_provider.dart';
 import 'package:flutter/material.dart';
@@ -10,16 +12,12 @@ class OrdersScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final orderData = Provider.of<OrderItemProvider>(context, listen: false);
     return orderData.itemCount <= 0
-        ? const Center(
-            child: Text('No orders added yet!'),
-          )
+        ? notFound('No orders added yet!')
         : FutureBuilder(
             future: orderData.fetchOrders(),
             builder: (ctx, futureSnapshot) {
               if (futureSnapshot.connectionState == ConnectionState.waiting) {
-                return const Center(
-                  child: CircularProgressIndicator(),
-                );
+                return const OrdersLoadingScreen();
               }
               return ListView.builder(
                 itemCount: orderData.orders.length,

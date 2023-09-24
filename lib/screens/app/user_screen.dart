@@ -1,24 +1,30 @@
-import 'package:eshop_flutter_app/screens/app/app_drawer.dart';
+import 'package:eshop_flutter_app/constants/constants.dart';
 
+import '/screens/app/app_drawer.dart';
 import '../cart/cart_screen.dart';
 import '../order/orders_screen.dart';
-import '../product/product_categories_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:line_icons/line_icons.dart';
+import '/screens/product/product_screen.dart';
+import '../product/product_categories_screen.dart';
+import 'package:google_nav_bar/google_nav_bar.dart';
 
-class AppScreen extends StatefulWidget {
-  const AppScreen({super.key});
+class UserScreen extends StatefulWidget {
+  const UserScreen({super.key});
 
   @override
-  State<AppScreen> createState() => _AppScreenState();
+  State<UserScreen> createState() => _AppScreenState();
 }
 
-class _AppScreenState extends State<AppScreen> {
+class _AppScreenState extends State<UserScreen> {
   final _screens = [
     {
       'title': 'EShop',
-      'page': const ProductCategoriesScreen(),
+      'page': ProductCategoriesScreen(),
+    },
+    {
+      'title': 'All Products',
+      'page': const ProductScreen(showAllProducts: true),
     },
     {
       'title': 'Your Cart',
@@ -35,17 +41,9 @@ class _AppScreenState extends State<AppScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        backgroundColor: Colors.white,
-        elevation: 1,
-        title: Text(
-          _screens[currentIndex]['title'] as String,
-          style: const TextStyle(
-            color: Colors.black,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
+      appBar: appBar(
+        _screens[currentIndex]['title'] as String,
+        center: true,
       ),
       drawer: const AppDrawer(),
       body: _screens[currentIndex]['page'] as Widget,
@@ -63,6 +61,10 @@ class _AppScreenState extends State<AppScreen> {
           GButton(
             icon: LineIcons.home,
             text: 'Home',
+          ),
+          GButton(
+            icon: LineIcons.search,
+            text: 'Search',
           ),
           GButton(
             icon: LineIcons.shoppingCart,

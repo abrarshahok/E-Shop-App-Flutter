@@ -16,6 +16,8 @@ dependencies:
   intl: ^0.18.1
   line_icons: ^2.0.3
   provider: ^6.0.5
+  shimmer: ^3.0.0
+  smooth_page_indicator: ^1.1.0
 
 dev_dependencies:
   flutter_test:
@@ -25,7 +27,12 @@ dev_dependencies:
 flutter:
   uses-material-design: true
   assets:
-    - assets/images/android.jpg
+    - assets/images/android.jpeg
     - assets/images/iphone.png
-    - assets/images/laptop.jpeg
+    - assets/images/laptop.png
     - assets/images/macbook.jpg
+    - assets/images/eshop1.jpg
+    - assets/images/eshop2.jpg
+    - assets/images/eshop3.jpg
+    - assets/images/appDrawer.jpg
+    - assets/images/not-found.png

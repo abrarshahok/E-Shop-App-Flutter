@@ -43,7 +43,7 @@ class AuthProvider with ChangeNotifier {
     final firebaseDB =
         await FirebaseFirestore.instance.collection('users').doc(userID).get();
     _userName = firebaseDB['username'];
-    if (firebaseDB['role'].toString().contains('admin')) {
+    if (firebaseDB['role'] == 'admin') {
       return true;
     }
     return false;

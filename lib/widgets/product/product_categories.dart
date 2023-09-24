@@ -1,10 +1,10 @@
-import 'package:eshop_flutter_app/screens/product/product_screen.dart';
-
-import '/models/product.dart';
 import 'package:flutter/material.dart';
+import '/screens/product/product_screen.dart';
+import '/models/product.dart';
 
-class ProductCategoriesItems extends StatelessWidget {
-  const ProductCategoriesItems({super.key, 
+class ProductCategories extends StatelessWidget {
+  const ProductCategories({
+    super.key,
     required this.title,
     required this.image,
     required this.category,
@@ -15,19 +15,19 @@ class ProductCategoriesItems extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      elevation: 10,
+      elevation: 1,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(15),
-          topRight: Radius.circular(15),
+          topLeft: Radius.circular(20),
+          topRight: Radius.circular(20),
         ),
       ),
       shadowColor: Colors.black,
       child: GridTile(
         footer: Container(
-          height: 50,
+          height: 40,
           width: double.infinity,
-          color: Colors.black54,
+          color: Colors.grey[800],
           alignment: Alignment.center,
           child: Text(
             title,
@@ -41,12 +41,12 @@ class ProductCategoriesItems extends StatelessWidget {
         child: InkWell(
           child: ClipRRect(
             borderRadius: const BorderRadius.only(
-              topLeft: Radius.circular(15),
-              topRight: Radius.circular(15),
+              topLeft: Radius.circular(20),
+              topRight: Radius.circular(20),
             ),
             child: Image.asset(
               image,
-              fit: BoxFit.cover,
+              fit: BoxFit.contain,
             ),
           ),
           onTap: () {

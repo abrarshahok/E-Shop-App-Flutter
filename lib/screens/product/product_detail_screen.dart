@@ -1,3 +1,4 @@
+import 'package:eshop_flutter_app/constants/constants.dart';
 import 'package:line_icons/line_icons.dart';
 import '/providers/cart_item_provider.dart';
 import '/providers/product_provider.dart';
@@ -99,22 +100,19 @@ class ProductDetailScreen extends StatelessWidget {
     }
 
     return Scaffold(
-      appBar: AppBar(
-        iconTheme: const IconThemeData(color: Colors.black),
-        backgroundColor: Colors.white,
-        elevation: 1,
-        title: const Text(
-          'Product Overview',
-          style: TextStyle(color: Colors.black),
-        ),
-        centerTitle: true,
-      ),
+      appBar: appBar('Product Overview'),
       body: Stack(
         children: [
           Hero(
             tag: product.id,
-            child: SizedBox(
+            child: Container(
               height: 400,
+              margin: const EdgeInsets.all(10),
+              padding: const EdgeInsets.all(10),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(15),
+              ),
               child: Image.network(
                 product.image,
                 fit: BoxFit.cover,
@@ -145,11 +143,11 @@ class ProductDetailScreen extends StatelessWidget {
                       children: [
                         Center(
                           child: Container(
-                            width: 70,
+                            width: 50,
                             alignment: Alignment.center,
                             decoration: BoxDecoration(
                               border: Border.all(
-                                color: Colors.black54,
+                                color: Colors.grey[800]!,
                                 width: 2,
                               ),
                               borderRadius: BorderRadius.circular(50),
