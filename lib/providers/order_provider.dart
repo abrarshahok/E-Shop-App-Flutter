@@ -1,12 +1,11 @@
 import 'package:firebase_auth/firebase_auth.dart';
-
-import '/models/cart_item.dart';
-import '/models/order_item.dart';
 import 'package:flutter/foundation.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import '/models/cart_item.dart';
+import '/models/order_item.dart';
 
-class OrderItemProvider with ChangeNotifier {
-  final List<OrderItem> _orders = [];
+class OrderProvider with ChangeNotifier {
+  List<OrderItem> _orders = [];
   List<OrderItem> get orders {
     return [..._orders];
   }
@@ -21,9 +20,10 @@ class OrderItemProvider with ChangeNotifier {
           .where('userId', isEqualTo: userId)
           .get();
       final orderInfo = fetchedOrders.docs;
-      _orders.clear();
+      final List<OrderItem> loadedOrders = [];
+
       for (var item in orderInfo) {
-        _orders.insert(
+        loadedOrders.insert(
           0,
           OrderItem(
             id: item.id,
@@ -44,6 +44,7 @@ class OrderItemProvider with ChangeNotifier {
                 .toList(),
           ),
         );
+        _orders = loadedOrders;
       }
       _orders.sort(((a, b) => b.dateTime.compareTo(a.dateTime)));
     } catch (_) {

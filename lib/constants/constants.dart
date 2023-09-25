@@ -39,6 +39,7 @@ AppBar appBar(String title, {bool center = false}) {
       title,
       style: const TextStyle(
         color: Colors.black,
+        fontWeight: FontWeight.bold,
       ),
     ),
   );

@@ -1,22 +1,22 @@
-import 'package:eshop_flutter_app/constants/constants.dart';
-import '../../animations/loading_orders.dart';
-import '/widgets/order/order_items.dart';
-import '/providers/order_item_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import '/constants/constants.dart';
+import '../../animations/loading_orders.dart';
+import '../../widgets/order/user_order_items.dart';
+import '../../providers/order_provider.dart';
 
-class OrdersScreen extends StatefulWidget {
-  const OrdersScreen({super.key});
+class UserOrdersScreen extends StatefulWidget {
+  const UserOrdersScreen({super.key});
 
   @override
-  State<OrdersScreen> createState() => _OrdersScreenState();
+  State<UserOrdersScreen> createState() => _UserOrdersScreenState();
 }
 
-class _OrdersScreenState extends State<OrdersScreen> {
+class _UserOrdersScreenState extends State<UserOrdersScreen> {
   Future? futureOrders;
 
   Future getFutureOrders() {
-    return Provider.of<OrderItemProvider>(context, listen: false).fetchOrders();
+    return Provider.of<OrderProvider>(context, listen: false).fetchOrders();
   }
 
   @override
@@ -27,7 +27,7 @@ class _OrdersScreenState extends State<OrdersScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final orderData = Provider.of<OrderItemProvider>(context);
+    final orderData = Provider.of<OrderProvider>(context);
     return orderData.itemCount <= 0
         ? notFound('No orders added yet!')
         : FutureBuilder(
@@ -38,7 +38,7 @@ class _OrdersScreenState extends State<OrdersScreen> {
               }
               return ListView.builder(
                 itemCount: orderData.orders.length,
-                itemBuilder: (ctx, index) => OrderItems(
+                itemBuilder: (ctx, index) => UserOrderItems(
                   order: orderData.orders[index],
                 ),
               );

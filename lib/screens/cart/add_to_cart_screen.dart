@@ -1,7 +1,7 @@
-import '/providers/cart_item_provider.dart';
-import '/providers/product_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import '../../widgets/cart/add_to_cart_buttons.dart';
+import '/providers/product_provider.dart';
 
 class AddToCartScreen extends StatelessWidget {
   const AddToCartScreen({super.key});
@@ -11,7 +11,7 @@ class AddToCartScreen extends StatelessWidget {
     final productId = ModalRoute.of(context)?.settings.arguments as String;
     final product = Provider.of<ProductProvider>(context, listen: false)
         .findById(productId);
-    final cart = Provider.of<CartItemProvider>(context, listen: false);
+
     return Container(
       decoration: const BoxDecoration(
         borderRadius: BorderRadius.only(
@@ -83,34 +83,7 @@ class AddToCartScreen extends StatelessWidget {
                 ),
               ),
               const Spacer(),
-              IconButton(
-                onPressed: () => cart.removeItem(productId: productId),
-                icon: const Icon(Icons.remove),
-                color: Colors.grey,
-              ),
-              Container(
-                height: 25,
-                width: 30,
-                alignment: Alignment.center,
-                decoration: BoxDecoration(
-                  border: Border.all(color: Colors.grey),
-                ),
-                child: Consumer<CartItemProvider>(
-                  builder: (context, cart, child) => Text(
-                    '${cart.cartItems[productId]?.quantity ?? 0}',
-                  ),
-                ),
-              ),
-              IconButton(
-                onPressed: () => cart.addItem(
-                  productId: productId,
-                  title: product.title,
-                  imageUrl: product.image,
-                  price: product.price,
-                ),
-                icon: const Icon(Icons.add),
-                color: Colors.grey,
-              ),
+              AddToCartButtons(productId: productId),
             ],
           ),
           const Divider(color: Colors.black12),

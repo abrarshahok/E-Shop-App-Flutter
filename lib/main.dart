@@ -1,19 +1,18 @@
-import 'package:eshop_flutter_app/screens/app/homepage.dart';
-
-import '/screens/order/order_info_screen.dart';
-import '/providers/auth_provider.dart';
-import '/screens/auth/auth_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
-import '/providers/order_item_provider.dart';
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import '/screens/app/homepage.dart';
+import 'screens/order/add_order_info_screen.dart';
+import '/providers/auth_provider.dart';
+import '/screens/auth/auth_screen.dart';
+import 'providers/order_provider.dart';
 import '/screens/cart/add_to_cart_screen.dart';
-import '/providers/cart_item_provider.dart';
+import 'providers/cart_provider.dart';
 import 'screens/product/product_screen.dart';
 import '/providers/product_provider.dart';
 import '/screens/product/product_detail_screen.dart';
-import 'screens/app/user_screen.dart';
-import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -32,10 +31,10 @@ class MainApp extends StatelessWidget {
           create: (ctx) => ProductProvider(),
         ),
         ChangeNotifierProvider(
-          create: (ctx) => CartItemProvider(),
+          create: (ctx) => CartProvider(),
         ),
         ChangeNotifierProvider(
-          create: (ctx) => OrderItemProvider(),
+          create: (ctx) => OrderProvider(),
         ),
         ChangeNotifierProvider(
           create: (ctx) => AuthProvider(),
@@ -62,7 +61,7 @@ class MainApp extends StatelessWidget {
           ProductScreen.routeName: (context) => const ProductScreen(),
           ProductDetailScreen.routeName: (context) => ProductDetailScreen(),
           AddToCartScreen.routeName: (context) => const AddToCartScreen(),
-          OrderInfoScreen.routeName: (context) => const OrderInfoScreen(),
+          AddOrderInfoScreen.routeName: (context) => const AddOrderInfoScreen(),
         },
       ),
     );

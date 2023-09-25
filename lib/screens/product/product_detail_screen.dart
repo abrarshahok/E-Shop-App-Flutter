@@ -1,10 +1,10 @@
-import 'package:eshop_flutter_app/constants/constants.dart';
-import 'package:line_icons/line_icons.dart';
-import '/providers/cart_item_provider.dart';
-import '/providers/product_provider.dart';
-import '/screens/cart/add_to_cart_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:line_icons/line_icons.dart';
+import '/constants/constants.dart';
+import '../../providers/cart_provider.dart';
+import '/providers/product_provider.dart';
+import '/screens/cart/add_to_cart_screen.dart';
 
 class ProductDetailScreen extends StatelessWidget {
   static const routeName = '/product-detail-screen';
@@ -70,35 +70,34 @@ class ProductDetailScreen extends StatelessWidget {
     );
   }
 
+  void startAddingItemToCart(BuildContext context, String productId) {
+    showModalBottomSheet(
+      context: context,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(15),
+          topRight: Radius.circular(15),
+        ),
+      ),
+      builder: (context) => const AddToCartScreen(),
+      routeSettings: RouteSettings(arguments: productId),
+    ).then((value) {
+      if (value == true) {
+        return;
+      } else {
+        Provider.of<CartProvider>(
+          context,
+          listen: false,
+        ).deleteItemFromCart(productId);
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final productId = ModalRoute.of(context)?.settings.arguments as String;
     final product = Provider.of<ProductProvider>(context, listen: false)
         .findById(productId);
-
-    void startAddingItemToCart() {
-      showModalBottomSheet(
-        context: context,
-        shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(15),
-            topRight: Radius.circular(15),
-          ),
-        ),
-        builder: (context) => const AddToCartScreen(),
-        routeSettings: RouteSettings(arguments: productId),
-      ).then((value) {
-        if (value == true) {
-          return;
-        } else {
-          Provider.of<CartItemProvider>(
-            context,
-            listen: false,
-          ).deleteItemFromCart(productId);
-        }
-      });
-    }
-
     return Scaffold(
       appBar: appBar('Product Overview'),
       body: Stack(
@@ -124,16 +123,16 @@ class ProductDetailScreen extends StatelessWidget {
           Expanded(
             child: DraggableScrollableSheet(
               controller: draggableScrollableController,
-              initialChildSize: 0.45,
+              initialChildSize: 0.5,
               maxChildSize: 1.0,
-              minChildSize: 0.3,
+              minChildSize: 0.4,
               builder: (context, scrollController) => ListView(
                 controller: scrollController,
                 children: [
                   Container(
                     clipBehavior: Clip.hardEdge,
                     width: double.infinity,
-                    height: 800,
+                    height: 710,
                     padding: const EdgeInsets.all(10),
                     decoration: BoxDecoration(
                       borderRadius: borderRadius,
@@ -171,12 +170,21 @@ class ProductDetailScreen extends StatelessWidget {
                           sizedBox: const SizedBox(width: 14),
                         ),
                         const SizedBox(height: 20),
-                        customRow(
-                          width: 150,
-                          label: 'Stock',
-                          item: '${product.stock} item(s) available',
-                          sizedBox: const SizedBox(width: 10),
-                        ),
+                        product.stock > 0
+                            ? customRow(
+                                width: 150,
+                                label: 'Stock',
+                                item: '${product.stock} item(s) available',
+                                sizedBox: const SizedBox(width: 10),
+                              )
+                            : const Text(
+                                'Out of Stock',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.red,
+                                  fontSize: 18,
+                                ),
+                              ),
                         const SizedBox(height: 20),
                         const Text(
                           'Description',
@@ -202,18 +210,22 @@ class ProductDetailScreen extends StatelessWidget {
       bottomNavigationBar: BottomAppBar(
         height: 60,
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          mainAxisAlignment: product.stock > 0
+              ? MainAxisAlignment.spaceAround
+              : MainAxisAlignment.center,
           children: [
             myCustomButton(
               icon: LineIcons.heart,
               label: 'Add to Favourite',
               onPressed: () {},
             ),
-            myCustomButton(
-              icon: LineIcons.shoppingCart,
-              label: 'Add to Cart',
-              onPressed: startAddingItemToCart,
-            ),
+            product.stock > 0
+                ? myCustomButton(
+                    icon: LineIcons.shoppingCart,
+                    label: 'Add to Cart',
+                    onPressed: () => startAddingItemToCart(context, productId),
+                  )
+                : const Text(''),
           ],
         ),
       ),

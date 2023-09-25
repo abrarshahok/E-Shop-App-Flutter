@@ -1,4 +1,4 @@
-enum Categories { laptop, macbook, android, iphone }
+enum Categories { laptop, macbook, android, iphone, unknown }
 
 class Product {
   final String id;

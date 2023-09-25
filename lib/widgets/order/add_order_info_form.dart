@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-
 import '../../constants/constants.dart';
 
-class OrderInfoForm extends StatefulWidget {
-  const OrderInfoForm({
+class AddOrderInfoForm extends StatefulWidget {
+  const AddOrderInfoForm({
     super.key,
     required this.submit,
     required this.isLoading,
@@ -16,10 +15,10 @@ class OrderInfoForm extends StatefulWidget {
   }) submit;
 
   @override
-  State<OrderInfoForm> createState() => _OrderInfoFormState();
+  State<AddOrderInfoForm> createState() => _AddOrderInfoFormState();
 }
 
-class _OrderInfoFormState extends State<OrderInfoForm> {
+class _AddOrderInfoFormState extends State<AddOrderInfoForm> {
   final GlobalKey<FormState> _formKey = GlobalKey();
   String? _firstName;
   String? _lastName;
@@ -50,7 +49,9 @@ class _OrderInfoFormState extends State<OrderInfoForm> {
             padding: const EdgeInsets.all(10),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.stretch,
+              crossAxisAlignment: !widget.isLoading
+                  ? CrossAxisAlignment.stretch
+                  : CrossAxisAlignment.center,
               mainAxisSize: MainAxisSize.min,
               children: [
                 TextFormField(
@@ -72,7 +73,7 @@ class _OrderInfoFormState extends State<OrderInfoForm> {
                 ),
                 TextFormField(
                   decoration:
-                      const InputDecoration(labelText: '*Delivery Adrress'),
+                      const InputDecoration(labelText: '*Delivery Address'),
                   onSaved: (address) => _address = address,
                   validator: (address) {
                     if (address!.trim().isEmpty) {

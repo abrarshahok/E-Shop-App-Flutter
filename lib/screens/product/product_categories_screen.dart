@@ -1,7 +1,7 @@
 import 'package:eshop_flutter_app/models/product.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
-import '/widgets/product/product_categories.dart';
 import 'package:flutter/material.dart';
+import '/widgets/product/product_categories.dart';
 
 class ProductCategoriesScreen extends StatelessWidget {
   ProductCategoriesScreen({super.key});

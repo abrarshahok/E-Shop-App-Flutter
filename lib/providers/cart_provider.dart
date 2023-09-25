@@ -1,9 +1,10 @@
-import '/models/cart_item.dart';
 import 'package:flutter/foundation.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
+import '/models/cart_item.dart';
 
-class CartItemProvider with ChangeNotifier {
+class CartProvider with ChangeNotifier {
   final Map<String, CartItem> _cartItems = {};
   Map<String, CartItem> get cartItems {
     return {..._cartItems};
@@ -106,7 +107,6 @@ class CartItemProvider with ChangeNotifier {
     if (!_cartItems.containsKey(productId)) {
       return;
     }
-
     final cartRefs = FirebaseFirestore.instance
         .collection('cart')
         .doc(userId)
@@ -172,12 +172,29 @@ class CartItemProvider with ChangeNotifier {
           .get()
           .then((snapsot) {
         for (DocumentSnapshot snap in snapsot.docs) {
+          final quantity = _cartItems[snap.id]!.quantity;
+          _minusStock(snap.id, quantity);
           snap.reference.delete();
         }
       }).whenComplete(() => _cartItems.clear());
     } catch (_) {
       rethrow;
     }
+    notifyListeners();
+  }
+
+  void _minusStock(String id, int quantity) async {
+    final currentProductRefs =
+        FirebaseFirestore.instance.collection('products').doc(id);
+    final currentProductInfo = await currentProductRefs.get();
+    await currentProductRefs.set({
+      'category': currentProductInfo['category'],
+      'title': currentProductInfo['title'],
+      'description': currentProductInfo['description'],
+      'image': currentProductInfo['image'],
+      'stock': int.parse(currentProductInfo['stock'].toString()) - quantity,
+      'price': double.parse(currentProductInfo['price'].toString()),
+    });
     notifyListeners();
   }
 }

@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-
-import '/models/product.dart';
 import 'package:flutter/foundation.dart';
+import '/models/product.dart';
 
 class ProductProvider with ChangeNotifier {
   List<Product> _products = [];
@@ -15,16 +14,14 @@ class ProductProvider with ChangeNotifier {
   }
 
   Categories getItemCategory(String category) {
-    if (category == 'iphone') {
-      return Categories.iphone;
-    }
-    if (category == 'android') {
-      return Categories.android;
-    }
-    if (category == 'laptop') {
-      return Categories.laptop;
-    }
-    return Categories.macbook;
+    Categories choosedCategory = switch (category) {
+      'iphone' => Categories.iphone,
+      'android' => Categories.android,
+      'laptop' => Categories.laptop,
+      'macbook' => Categories.macbook,
+      _ => Categories.unknown,
+    };
+    return choosedCategory;
   }
 
   Future<void> fetchProducts() async {
@@ -43,8 +40,8 @@ class ProductProvider with ChangeNotifier {
             title: item['title'],
             description: item['description'],
             image: item['image'],
-            stock: int.parse(item['stock']),
-            price: double.parse(item['price']),
+            stock: int.parse(item['stock'].toString()),
+            price: double.parse(item['price'].toString()),
             category: itemCategory,
           ),
         );
