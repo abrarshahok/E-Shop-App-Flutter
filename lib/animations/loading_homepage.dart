@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
 
-class HomePageLoading extends StatelessWidget {
-  const HomePageLoading({super.key});
+class LoadingHomePage extends StatelessWidget {
+  const LoadingHomePage({super.key});
 
   @override
   Widget build(BuildContext context) {

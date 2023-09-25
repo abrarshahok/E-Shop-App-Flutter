@@ -1,5 +1,5 @@
-import '/screens/product/product_detail_screen.dart';
 import 'package:flutter/material.dart';
+import '/screens/product/product_detail_screen.dart';
 
 class ProductItems extends StatelessWidget {
   const ProductItems({
@@ -42,6 +42,7 @@ class ProductItems extends StatelessWidget {
                   image,
                   fit: BoxFit.contain,
                   height: 120,
+                  alignment: Alignment.center,
                 ),
               ),
               const SizedBox(height: 10),

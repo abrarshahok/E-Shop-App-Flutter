@@ -1,6 +1,6 @@
 import 'package:eshop_flutter_app/constants/constants.dart';
 
-import '/screens/loading_screens/cart_loading_screen.dart';
+import '../../animations/loading_cart.dart';
 import '/screens/order/order_info_screen.dart';
 import '/providers/product_provider.dart';
 import '/widgets/cart/cart_items.dart';
@@ -39,7 +39,7 @@ class _CartScreenState extends State<CartScreen> {
             future: _future,
             builder: (ctx, futureSnapshot) {
               if (futureSnapshot.connectionState == ConnectionState.waiting) {
-                return const CartLoadingScreen();
+                return const LoadingCart();
               }
               return Column(
                 children: [

@@ -1,6 +1,6 @@
 import 'package:eshop_flutter_app/constants/constants.dart';
 
-import '/screens/loading_screens/all_products_loading_screen.dart';
+import '../../animations/loading_products.dart';
 import '/widgets/product/product_items.dart';
 import '/providers/product_provider.dart';
 import 'package:flutter/material.dart';
@@ -94,7 +94,7 @@ class _ProductScreenState extends State<ProductScreen> {
               builder: (ctx, futureSnapshot) {
                 if (futureSnapshot.connectionState == ConnectionState.waiting) {
                   return const Expanded(
-                    child: AllProductsLoadingScreen(),
+                    child: LoadingProducts(),
                   );
                 }
 

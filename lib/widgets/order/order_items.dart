@@ -1,4 +1,3 @@
-import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import '/models/order_item.dart';
@@ -13,73 +12,59 @@ class OrderItems extends StatefulWidget {
 
 class _OrderItemsState extends State<OrderItems> {
   bool _isExpanded = false;
+
   @override
   Widget build(BuildContext context) {
-    return AnimatedContainer(
-      duration: const Duration(milliseconds: 300),
-      height: _isExpanded
-          ? min(widget.order.products.length * 20.0 + 150, 200)
-          : 95,
-      child: Card(
-        margin: const EdgeInsets.all(10),
-        child: Column(
-          children: [
-            ListTile(
-              title: Text(
-                '\$${widget.order.amount.toStringAsFixed(2)}',
-                style: const TextStyle(fontSize: 20),
-              ),
-              subtitle: Text(
-                DateFormat('dd/MM/yyy  hh:mm a').format(widget.order.dateTime),
-                style: const TextStyle(
-                  fontSize: 15,
-                  color: Colors.grey,
-                ),
-              ),
-              trailing: IconButton(
-                icon: Icon(_isExpanded ? Icons.expand_less : Icons.expand_more),
-                onPressed: () {
-                  setState(() {
-                    _isExpanded = !_isExpanded;
-                  });
-                },
+    final products = widget.order.products;
+    String formatedDateTime =
+        'Purchased on ${DateFormat('dd/MM/yyy').format(widget.order.dateTime)} at ${DateFormat('hh:mm a').format(widget.order.dateTime)}';
+    return Card(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          ListTile(
+            title: Text(
+              '\$${widget.order.amount.toStringAsFixed(2)}',
+              style: const TextStyle(fontSize: 20),
+            ),
+            subtitle: Text(
+              formatedDateTime,
+              style: const TextStyle(
+                fontSize: 15,
+                color: Colors.grey,
               ),
             ),
-            Expanded(
-              child: AnimatedContainer(
-                duration: const Duration(milliseconds: 200),
-                height: _isExpanded
-                    ? min(widget.order.products.length * 20.0 + 110, 200)
-                    : 0,
-                padding: const EdgeInsets.all(15),
-                child: ListView.builder(
-                  itemCount: widget.order.products.length,
-                  itemBuilder: (ctx, index) {
-                    final orderedProducts = widget.order.products;
-                    return Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          orderedProducts[index].title,
-                          style: const TextStyle(
-                            fontSize: 20,
-                          ),
-                        ),
-                        Text(
-                          'x ${orderedProducts[index].quantity}',
-                          style: const TextStyle(
-                            fontSize: 20,
-                            color: Colors.grey,
-                          ),
-                        ),
-                      ],
-                    );
-                  },
+            trailing: IconButton(
+              icon: Icon(_isExpanded ? Icons.expand_less : Icons.expand_more),
+              onPressed: () {
+                setState(() {
+                  _isExpanded = !_isExpanded;
+                });
+              },
+            ),
+          ),
+          if (_isExpanded)
+            SizedBox(
+              height: products.length * 80,
+              child: ListView.builder(
+                itemCount: products.length,
+                itemBuilder: (ctx, index) => ListTile(
+                  leading: CircleAvatar(
+                    backgroundColor: Colors.grey[50],
+                    radius: 30,
+                    child: Image.network(
+                      products[index].image,
+                      fit: BoxFit.contain,
+                    ),
+                  ),
+                  title: Text(products[index].title),
+                  subtitle: Text(
+                    'Purchased ${products[index].quantity} item(s)',
+                  ),
                 ),
               ),
             ),
-          ],
-        ),
+        ],
       ),
     );
   }

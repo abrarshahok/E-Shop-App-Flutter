@@ -45,6 +45,7 @@ class OrderItemProvider with ChangeNotifier {
           ),
         );
       }
+      _orders.sort(((a, b) => b.dateTime.compareTo(a.dateTime)));
     } catch (_) {
       rethrow;
     }

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
 
-class AllProductsLoadingScreen extends StatelessWidget {
-  const AllProductsLoadingScreen({super.key});
+class LoadingCart extends StatelessWidget {
+  const LoadingCart({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -11,23 +11,26 @@ class AllProductsLoadingScreen extends StatelessWidget {
       highlightColor: Colors.white,
       child: Column(
         children: [
-          const SizedBox(height: 20),
+          Card(
+            margin: const EdgeInsets.all(20),
+            elevation: 1,
+            child: Container(
+              height: 120,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(15),
+              ),
+            ),
+          ),
           Expanded(
             flex: 2,
-            child: GridView.builder(
+            child: ListView.builder(
               itemCount: 6,
               padding: const EdgeInsets.all(10),
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                childAspectRatio: 2 / 2,
-                crossAxisSpacing: 10,
-                mainAxisSpacing: 10,
-              ),
               itemBuilder: (context, index) {
                 return Card(
                   elevation: 1,
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(15),
+                    borderRadius: BorderRadius.circular(16),
                   ),
                   child: const SizedBox(height: 80),
                 );

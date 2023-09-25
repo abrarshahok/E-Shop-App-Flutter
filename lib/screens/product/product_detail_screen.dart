@@ -107,6 +107,7 @@ class ProductDetailScreen extends StatelessWidget {
             tag: product.id,
             child: Container(
               height: 400,
+              width: 500,
               margin: const EdgeInsets.all(10),
               padding: const EdgeInsets.all(10),
               decoration: BoxDecoration(
@@ -115,7 +116,7 @@ class ProductDetailScreen extends StatelessWidget {
               ),
               child: Image.network(
                 product.image,
-                fit: BoxFit.cover,
+                fit: BoxFit.contain,
               ),
             ),
           ),
