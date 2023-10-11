@@ -22,11 +22,10 @@ class ProductDetailScreen extends StatelessWidget {
     required String label,
     required IconData icon,
     required Function() onPressed,
+    required BuildContext context,
   }) {
-    return ElevatedButton.icon(
+    return ElevatedButton(
       onPressed: onPressed,
-      icon: Icon(icon),
-      label: Text(label),
       style: ElevatedButton.styleFrom(
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(50),
@@ -35,6 +34,7 @@ class ProductDetailScreen extends StatelessWidget {
         backgroundColor: Colors.grey[800],
         foregroundColor: Colors.white,
       ),
+      child: Icon(icon),
     );
   }
 
@@ -120,89 +120,87 @@ class ProductDetailScreen extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 10),
-          Expanded(
-            child: DraggableScrollableSheet(
-              controller: draggableScrollableController,
-              initialChildSize: 0.5,
-              maxChildSize: 1.0,
-              minChildSize: 0.4,
-              builder: (context, scrollController) => ListView(
-                controller: scrollController,
-                children: [
-                  Container(
-                    clipBehavior: Clip.hardEdge,
-                    width: double.infinity,
-                    height: 710,
-                    padding: const EdgeInsets.all(10),
-                    decoration: BoxDecoration(
-                      borderRadius: borderRadius,
-                      color: Colors.white,
-                    ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Center(
-                          child: Container(
-                            width: 50,
-                            alignment: Alignment.center,
-                            decoration: BoxDecoration(
-                              border: Border.all(
-                                color: Colors.grey[800]!,
-                                width: 2,
-                              ),
-                              borderRadius: BorderRadius.circular(50),
-                            ),
-                          ),
-                        ),
-                        const SizedBox(height: 20),
-                        Text(
-                          product.title,
-                          style: const TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 25,
-                          ),
-                        ),
-                        const SizedBox(height: 20),
-                        customRow(
-                          width: 100,
-                          label: 'Price',
-                          item: '\$${product.price}',
-                          sizedBox: const SizedBox(width: 14),
-                        ),
-                        const SizedBox(height: 20),
-                        product.stock > 0
-                            ? customRow(
-                                width: 150,
-                                label: 'Stock',
-                                item: '${product.stock} item(s) available',
-                                sizedBox: const SizedBox(width: 10),
-                              )
-                            : const Text(
-                                'Out of Stock',
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.red,
-                                  fontSize: 18,
-                                ),
-                              ),
-                        const SizedBox(height: 20),
-                        const Text(
-                          'Description',
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 18,
-                          ),
-                        ),
-                        const SizedBox(height: 10),
-                        Text(
-                          product.description,
-                          textAlign: TextAlign.justify,
-                        ),
-                      ],
-                    ),
+          DraggableScrollableSheet(
+            controller: draggableScrollableController,
+            initialChildSize: 0.5,
+            maxChildSize: 1.0,
+            minChildSize: 0.4,
+            builder: (context, scrollController) => ListView(
+              controller: scrollController,
+              children: [
+                Container(
+                  clipBehavior: Clip.hardEdge,
+                  width: double.infinity,
+                  height: 710,
+                  padding: const EdgeInsets.all(10),
+                  decoration: BoxDecoration(
+                    borderRadius: borderRadius,
+                    color: Colors.white,
                   ),
-                ],
-              ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Center(
+                        child: Container(
+                          width: 50,
+                          alignment: Alignment.center,
+                          decoration: BoxDecoration(
+                            border: Border.all(
+                              color: Colors.grey[800]!,
+                              width: 2,
+                            ),
+                            borderRadius: BorderRadius.circular(50),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 20),
+                      Text(
+                        product.title,
+                        style: const TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 25,
+                        ),
+                      ),
+                      const SizedBox(height: 20),
+                      customRow(
+                        width: 100,
+                        label: 'Price',
+                        item: '\$${product.price}',
+                        sizedBox: const SizedBox(width: 14),
+                      ),
+                      const SizedBox(height: 20),
+                      product.stock > 0
+                          ? customRow(
+                              width: 150,
+                              label: 'Stock',
+                              item: '${product.stock} item(s) available',
+                              sizedBox: const SizedBox(width: 10),
+                            )
+                          : const Text(
+                              'Out of Stock',
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: Colors.red,
+                                fontSize: 18,
+                              ),
+                            ),
+                      const SizedBox(height: 20),
+                      const Text(
+                        'Description',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18,
+                        ),
+                      ),
+                      const SizedBox(height: 10),
+                      Text(
+                        product.description,
+                        textAlign: TextAlign.justify,
+                      ),
+                    ],
+                  ),
+                ),
+              ],
             ),
           ),
         ],
@@ -215,12 +213,14 @@ class ProductDetailScreen extends StatelessWidget {
               : MainAxisAlignment.center,
           children: [
             myCustomButton(
+              context: context,
               icon: LineIcons.heart,
               label: 'Add to Favourite',
               onPressed: () {},
             ),
             product.stock > 0
                 ? myCustomButton(
+                    context: context,
                     icon: LineIcons.shoppingCart,
                     label: 'Add to Cart',
                     onPressed: () => startAddingItemToCart(context, productId),

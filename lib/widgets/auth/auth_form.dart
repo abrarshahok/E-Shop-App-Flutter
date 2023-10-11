@@ -98,7 +98,16 @@ class _AuthFormState extends State<AuthForm> {
                   if (!widget.isLoading)
                     ElevatedButton(
                       onPressed: _submitUserData,
-                      child: Text(_isLogin ? 'Login' : 'Signup'),
+                      style: ElevatedButton.styleFrom(
+                        fixedSize: const Size(300, 40),
+                      ),
+                      child: Text(
+                        _isLogin ? 'Login' : 'Signup',
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 18,
+                        ),
+                      ),
                     ),
                   !widget.isLoading
                       ? TextButton(
@@ -107,6 +116,10 @@ class _AuthFormState extends State<AuthForm> {
                             _isLogin
                                 ? 'Create new account'
                                 : 'I already have an accoount!',
+                            style: const TextStyle(
+                              color: Colors.grey,
+                              fontSize: 16,
+                            ),
                           ),
                         )
                       : Container(),

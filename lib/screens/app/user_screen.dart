@@ -50,6 +50,7 @@ class _AppScreenState extends State<UserScreen> {
     return Scaffold(
       appBar: appBar(
         _screens[currentIndex]['title'] as String,
+        
         center: true,
       ),
       drawer: const AppDrawer(),

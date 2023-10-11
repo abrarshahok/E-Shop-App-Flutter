@@ -55,7 +55,6 @@ class CartItems extends StatelessWidget {
                 ],
               ),
             ),
-            const Spacer(),
             if (showCartButtons) ...[
               AddToCartButtons(productId: productId),
             ] else

@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 import '/screens/app/homepage.dart';
@@ -45,6 +46,28 @@ class MainApp extends StatelessWidget {
         theme: ThemeData(
           colorScheme: ColorScheme.fromSwatch(
             primarySwatch: Colors.grey,
+          ),
+          textTheme: TextTheme(
+            titleLarge: GoogleFonts.quicksand(
+              color: Colors.white,
+              fontSize: 18,
+              fontWeight: FontWeight.w500,
+            ),
+            labelLarge: GoogleFonts.quicksand(
+              fontSize: 22,
+              color: Colors.black,
+              fontWeight: FontWeight.w500,
+            ),
+            bodyMedium: GoogleFonts.quicksand(
+              fontSize: 14,
+              color: Colors.black,
+              fontWeight: FontWeight.w500,
+            ),
+            bodySmall: GoogleFonts.quicksand(
+              fontSize: 12,
+              color: Colors.white,
+              fontWeight: FontWeight.w500,
+            ),
           ),
         ),
         home: StreamBuilder(

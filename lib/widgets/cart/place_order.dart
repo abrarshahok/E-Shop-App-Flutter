@@ -36,9 +36,7 @@ class PlaceOrder extends StatelessWidget {
                 Chip(
                   label: Text(
                     '\$${cart.total.toStringAsFixed(2)}',
-                    style: const TextStyle(
-                      color: Colors.white,
-                    ),
+                    style: Theme.of(context).textTheme.titleLarge,
                   ),
                   backgroundColor: Colors.grey[800],
                 ),

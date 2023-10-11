@@ -27,7 +27,7 @@ class _UserOrderItemsState extends State<UserOrderItems> {
           ListTile(
             title: Text(
               '\$${widget.order.amount.toStringAsFixed(2)}',
-              style: const TextStyle(fontSize: 20),
+              style: Theme.of(context).textTheme.labelLarge,
             ),
             subtitle: Text(
               formatedDateTime,
@@ -62,6 +62,7 @@ class _UserOrderItemsState extends State<UserOrderItems> {
                   title: Text(products[index].title),
                   subtitle: Text(
                     'Purchased ${products[index].quantity} item(s)',
+                    style: Theme.of(context).textTheme.bodyMedium,
                   ),
                 ),
               ),

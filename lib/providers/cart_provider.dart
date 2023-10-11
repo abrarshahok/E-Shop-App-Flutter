@@ -47,12 +47,12 @@ class CartProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> addItem({
+  addItem({
     required String productId,
     required String title,
     required String imageUrl,
     required double price,
-  }) async {
+  }) {
     final cartRefs = FirebaseFirestore.instance
         .collection('cart')
         .doc(userId)
@@ -71,7 +71,7 @@ class CartProvider with ChangeNotifier {
           ),
         );
         final currentItem = _cartItems[productId];
-        await cartRefs.set({
+        cartRefs.set({
           'id': currentItem!.id,
           'title': title,
           'image': imageUrl,
@@ -79,7 +79,7 @@ class CartProvider with ChangeNotifier {
           'quantity': currentItem.quantity,
         });
       } else {
-        await cartRefs.set({
+        cartRefs.set({
           'id': DateTime.now().toString(),
           'title': title,
           'image': imageUrl,
@@ -103,7 +103,7 @@ class CartProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> removeItem({required String productId}) async {
+  removeItem({required String productId}) {
     if (!_cartItems.containsKey(productId)) {
       return;
     }
@@ -125,7 +125,7 @@ class CartProvider with ChangeNotifier {
             quantity: item.quantity - 1,
           ),
         );
-        await cartRefs.set({
+        cartRefs.set({
           'id': currentItem!.id,
           'title': currentItem.title,
           'image': currentItem.image,
@@ -133,7 +133,7 @@ class CartProvider with ChangeNotifier {
           'quantity': currentItem.quantity,
         });
       } else {
-        await cartRefs.delete();
+        cartRefs.delete();
         _cartItems.remove(productId);
       }
     } catch (_) {
@@ -142,7 +142,7 @@ class CartProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> deleteItemFromCart(String productId) async {
+  deleteItemFromCart(String productId) {
     if (!_cartItems.containsKey(productId)) {
       return;
     }
@@ -154,7 +154,7 @@ class CartProvider with ChangeNotifier {
         .doc(productId);
     final currentItem = _cartItems[productId];
     try {
-      await cartRefs.delete();
+      cartRefs.delete();
       _cartItems.remove(productId);
     } catch (_) {
       _cartItems[productId] = currentItem!;

@@ -50,6 +50,8 @@ class _AddOrderInfoScreenState extends State<AddOrderInfoScreen> {
     return Scaffold(
       appBar: appBar('Confirm Your Order'),
       body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisSize: MainAxisSize.min,
         children: [
           AddOrderInfoForm(
             submit: submitDeliveryInfo,

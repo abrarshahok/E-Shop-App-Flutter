@@ -38,6 +38,7 @@ AppBar appBar(String title, {bool center = false}) {
     title: Text(
       title,
       style: const TextStyle(
+        fontSize: 20,
         color: Colors.black,
         fontWeight: FontWeight.bold,
       ),
